@@ -38,8 +38,8 @@ def draw_berry(draw_here):
     turtle.goto(draw_here)
     turtle.end_fill()
     turtle.end_poly()
-    my_strawberry.append.turtle.get_poly()
-    return(my_strawberry)
+    my_strawberry = turtle.get_poly()
+    print(my_strawberry)
 
 def draw_seed(location):
         turtle.up()
@@ -102,7 +102,7 @@ def draw_berry_dos(top_size, bottom_size):
     turtle.end_poly() # close polygon
     my_strawberry = turtle.get_poly()
     return(straw_tri)
-
+shapes_dict = {}
 straw_tri = {
     'start': (0.0, 0.0),
     'second point': (-60.62, 65.0),
@@ -111,13 +111,21 @@ straw_tri = {
     'third point': (-65.94, 34.82),
     'first point': (0.0, 100.0)
     }
+tri_guide_dict = {}
 
 def tri_guide():
     turtle.color("gold")
-    turtle.begin_poly()
+    turtle.begin_poly() # return a, b, c
     turtle.goto(straw_tri.get('start'))
+
+    a1 = turtle.pos()# a
+    tri_guide_dict.update({"A1": a1})
+
     turtle.goto(straw_tri.get('first point'))
-    print(turtle.heading())
+
+    b1 = turtle.pos() # b
+    tri_guide_dict.update({"B1": b1})
+
     turtle.setheading(212.5)
     turtle.forward(90) # needs to be swapped out w/ variable
 
@@ -125,28 +133,68 @@ def tri_guide():
     tip = turtle.pos() # add 'strawberry tip'
     straw_tri.update({"strawberry tip": tip})
 
-    turtle.goto(straw_tri.get('start')) # finish "bottom triangle"
+    c1 = turtle.pos() # c
+    tri_guide_dict.update({"C1": c1})
+
+    turtle.goto(straw_tri.get('start')) # finish "bottom triangle" - return to a
     turtle.end_poly()
     guide_one = turtle.get_poly()
 
-    turtle.begin_poly()
+    turtle.begin_poly() # start - a2
+
+    a2 = turtle.pos()# a
+    tri_guide_dict.update({"A2": a2})
+
     turtle.setheading(45) # start "top triangle"
     turtle.forward(75) # needs height variable
 
 #update dict
 
-    top = turtle.pos()
+    top = turtle.pos() # top -  b2
     straw_tri.update({'top of berry': top})
 
-    turtle.goto(straw_tri.get('first point')) # finish "top triangle"
+    b2 = turtle.pos() # b
+    tri_guide_dict.update({"B2": b2})
+
+    turtle.goto(straw_tri.get('first point')) # c2 - finish "top triangle"
+
+    c2 = turtle.pos() # c
+    tri_guide_dict.update({"C2": c2})
+
     turtle.end_poly()
     guide_two = turtle.get_poly()
+    return(tri_guide_dict)
+
+
+tri_guide_dict = {
+    "top triangle":{ # add guide
+        'A1': (0.00,0.00),
+        'B1': (0.00,100.00),
+        'C1': (-75.91,51.64)
+        },
+    "bottom triangle" : { # add guide
+        'A2': (0.00,0.00),
+        'B2': (53.03,53.03),
+        'C2': (0.00,100.00),
+    }
+
+    }
+
+def find_area(a_key, b_key, c_key):
+    # ax(by-cy) + bx(cy-ay) + cx(ay-by)
+    #
+    tri_guide_dict.get( {which_triangle: a_key: (x, y)})
+    print(a_key)
+    print(b_key)
+    print(c_key)
+
 
 
 draw_berry_dos(50, 20)
 tri_guide()
-print(straw_tri)
 
-outline_point_seeds()
-strawberry_top()
+tri_guide_dict.get("top triangle")
+
+#outline_point_seeds()
+#strawberry_top()
 raw_input('Press RETURN to exit')
